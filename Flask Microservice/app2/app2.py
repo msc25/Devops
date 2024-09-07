@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     try:
-        response = requests.get('http://localhost:8008/hello')
+        response = requests.get('http://app1:8008/hello')
         data = response.json()
         return jsonify(message="Hello from app2!", app1_message=data['message'])
     except requests.exceptions.RequestException as e:
