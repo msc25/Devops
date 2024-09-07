@@ -1,8 +1,8 @@
-from flask import Flask
+from flask import Flask,jsonify
 app = Flask(__name__)
-@app.route("/")
+@app.route("/hello")
 def helloworld():
-    return "Hello World from app1!"
+    return jsonify(message="Hello World from app1!")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8002, debug=True)
+    app.run(host="0.0.0.0", port=8008, debug=True)
