@@ -1,0 +1,5 @@
+US East (N. Virginia) Region
+AMI ID: ami-0ebfd941bbafe70c6
+instance type: t2.micro
+VPC_ID: vpc-04e702118f28b9826
+security group: 'launch-wizard-1'
