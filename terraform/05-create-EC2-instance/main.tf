@@ -7,12 +7,11 @@ terraform {
   }
 }
 
-variable "aws_key_pair" {
-  default = "~/aws/aws_keys/meghraj.pem"
-}
-
 provider "aws" {
   region = "us-east-1"
+}
+
+resource "aws_default_vpc" "default" {
 }
 
 # //HTTP Server --> 80 TCP
@@ -21,7 +20,7 @@ provider "aws" {
 
 resource "aws_security_group" "http_server_sg" {
   name   = "http_server_sg"
-  vpc_id = "vpc-04e702118f28b9826"
+  vpc_id = aws_default_vpc.default.id
 
   tags = {
     name = "http_server_sg"
@@ -50,11 +49,11 @@ resource "aws_security_group" "http_server_sg" {
 }
 
 resource "aws_instance" "http_server" {
-  ami                    = "ami-0ebfd941bbafe70c6"
+  ami                    = data.aws_ami.aws-linux-2023-latest.id
   key_name               = "meghraj"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.http_server_sg.id]
-  subnet_id              = "subnet-002cd76e71f667bbe" //get from VPC Dashboard on AWS site
+  subnet_id              = data.aws_subnets.default_subnets.ids[0] //get from VPC Dashboard on AWS site
 
   connection {
     type        = "ssh"
@@ -73,6 +72,5 @@ resource "aws_instance" "http_server" {
       "echo 'Provisioning completed.' >> /tmp/provisioning.log"
     ]
   }
-
 }
 
